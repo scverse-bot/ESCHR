@@ -7,8 +7,8 @@ import pandas as pd
 import scanpy as sc
 import seaborn as sns
 from scipy.cluster import hierarchy
-from scipy.spatial.distance import pdist
 from scipy.sparse import issparse
+from scipy.spatial.distance import pdist
 
 mpl.use("Agg")  # this makes plt.show not work
 
@@ -109,14 +109,14 @@ def make_smm_heatmap(cc_obj, features=None, smm_cmap="gray_r", feat_cmap="YlOrBr
             sc.tl.rank_genes_groups(cc_obj.adata, "hard_clusters", method="logreg")
             features = np.array(cc_obj.adata.uns["rank_genes_groups"]["names"][0].tolist())
             print("marker genes done")
-    elif isinstance(features,list):
+    elif isinstance(features, list):
         features = np.array(features)
-    elif isinstance(features,pd.core.series.Series):
+    elif isinstance(features, pd.core.series.Series):
         features = features.to_numpy()
-    elif isinstance(features,np.ndarray):
+    elif isinstance(features, np.ndarray):
         features = features
     else:
-        raise Exception('provided features must be in the form of a list, numpy array, or pandas series')
+        raise Exception("provided features must be in the form of a list, numpy array, or pandas series")
 
     if issparse(cc_obj.adata.X):
         exprs_arr = cc_obj.adata.X[:, :].toarray()[row_order, :][row_col_order_dict["rows"].tolist(), :]
